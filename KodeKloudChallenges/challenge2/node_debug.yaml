@@ -1,0 +1,11 @@
+cp  /etc/kubernetes/pki/ca.crt to /etc/kubernetes/pki/ca-authority.crt
+# -----------------------------------------------------
+# change port control plain to 6443 in /root/.kube/config
+# -----------------------------------------------------
+kubectl edit deployments.apps -n kube-system coredns
+#change coredns version
+# -----------------------------------------------------
+kubectl uncordon node01
+# -----------------------------------------------------
+scp /media/* root@node01:/web/
+# -----------------------------------------------------
