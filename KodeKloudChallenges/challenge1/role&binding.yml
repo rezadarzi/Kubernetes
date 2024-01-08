@@ -1,0 +1,31 @@
+kubectl config get-contexts 
+kubectl config use-context kubernetes-admin@kubernetes
+
+kubectl config set-context developer --cluster=kubernetes --user=martin --namespace=development
+kubectl config use-context developer
+
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: development
+  name: developer-role
+rules:
+# - apiGroups: ["storage.k8s.io","core","rbac.authorization.k8s.io"]
+- apiGroups: ["*"]
+  resources: ["pods","services","persistentvolumeclaims","persistentvolumes"]
+  verbs: ["*"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: developer-rolebinding
+  namespace: development
+subjects:
+- kind: User
+  name: martin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer-role
+  apiGroup: rbac.authorization.k8s.io

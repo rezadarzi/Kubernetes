@@ -1,0 +1,11 @@
+
+openssl genrsa -out martin.key 2048
+openssl req -new -key martin.key -out martin.csr
+openssl x509 -req -in martin.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out martin.crt -days 500
+
+
+kubectl config set-credentials martin --client-certificate=martin.crt --client-key=martin.key
+kubectl config set-context developer --cluster=kubernetes --namespace=development --user=martin
+kubectl config current-context developer
+kubectl config use-context developer
+

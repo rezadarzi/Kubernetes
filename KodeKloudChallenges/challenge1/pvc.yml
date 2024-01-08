@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jekyll-site
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: development
+    name: jekyll-site
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: development
+  name: jekyll-site
+spec:
+  storageClassName: manual
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
